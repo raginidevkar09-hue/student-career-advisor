@@ -1,7 +1,6 @@
 import pandas as pd
-
-LEVEL1_CSV_PATH = "data/level1_questions.csv"
+from pathlib import Path
 
 def load_level1_questions():
-    df = pd.read_csv(LEVEL1_CSV_PATH)
-    return df
+    path = Path("backend/data/level1_questions.csv")
+    return pd.read_csv(path)

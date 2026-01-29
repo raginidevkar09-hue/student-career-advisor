@@ -1,21 +1,23 @@
-def match_streams(streams, normalized_scores):
+TRAIT_COLUMN_MAP = {
+    "logical": "logical_thinking_level",
+    "memory": "memorization_level",
+    "creative": "creativity_level",
+    "physical": "physical_requirement"
+}
+
+def match_streams(numeric_df, normalized_traits):
     results = []
 
-    for _, row in streams.iterrows():
-        traits = row["suitable_traits"].lower().split("-")
+    for _, row in numeric_df.iterrows():
         score = 0
 
-        for trait in traits:
-            trait = trait.strip()
-            if trait in normalized_scores:
-                score += normalized_scores[trait]
+        for trait, column in TRAIT_COLUMN_MAP.items():
+            if trait in normalized_traits and column in row:
+                score += normalized_traits[trait] * row[column]
 
         results.append({
             "stream_id": row["stream_id"],
-            "stream_name": row["stream_name"],
-            "match_score": round(score, 2),
-            "career_examples": row["career_examples"],
-            "financial_notes": row["financial_support_notes"]
+            "final_score": round(score, 4)
         })
 
-    return sorted(results, key=lambda x: x["match_score"], reverse=True)
+    return sorted(results, key=lambda x: x["final_score"], reverse=True)
