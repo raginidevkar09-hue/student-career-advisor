@@ -1,66 +1,100 @@
 from fastapi import FastAPI
+from datetime import date
+
+# Question & scoring
 from backend.services.csv_loader import load_level1_questions
 from backend.services.scoring import calculate_trait_scores
 from backend.services.normalizer import normalize_scores
+
+# Progress & marks
 from backend.services.progress_store import save_progress
-from backend.services.stream_loader import load_stream_master
-from backend.services.stream_matcher import match_streams
-from backend.services.finance_filter import filter_by_finance
-from backend.services.marks_store import save_marks
-from datetime import date
 from backend.services.marks_store import save_marks
 from backend.services.analytics import analyze_student_performance
 
+# Streams
+from backend.services.stream_loader import (
+    load_stream_master_numeric,
+    load_stream_master_details
+)
+from backend.services.stream_matcher import match_streams
+from backend.services.finance_filter import filter_by_finance
+from backend.services.finance_adjuster import adjust_by_finance
+
+# Confidence
+from backend.services.confidence_calculator import calculate_confidence
+
 app = FastAPI()
 
+
+# ------------------ BASIC HEALTH ------------------
 @app.get("/")
 def root():
     return {"status": "Backend running"}
 
+
+# ------------------ LEVEL 1 QUESTIONS ------------------
 @app.get("/level1/questions")
 def get_level1_questions():
     df = load_level1_questions()
     return df.to_dict(orient="records")
 
+
+# ------------------ LEVEL 1 SUBMIT ------------------
 @app.post("/level1/submit")
-def submit_answers(payload: dict):
+def submit_level1(payload: dict):
     """
     Expected payload:
     {
         "student_id": "S101",
-        "answers": {"Q1":2,"Q2":3},
-        "financial_level": "low"   # optional later
+        "answers": {
+            "Q1": 3,
+            "Q2": 4,
+            "Q3": 2
+        },
+        "financial_level": "LOW"   # LOW | MID | HIGH
     }
     """
 
     student_id = payload["student_id"]
     answers = payload["answers"]
-    financial_level = payload.get("financial_level", "any")
+    financial_level = payload.get("financial_level", "MID")
 
-    # Step 1: Load questions
-    df = load_level1_questions()
-    questions = df.to_dict(orient="records")
+    # 1. Load questions
+    questions_df = load_level1_questions()
+    questions = questions_df.to_dict(orient="records")
 
-    # Step 2: Trait scoring
+    # 2. Trait scoring
     trait_scores = calculate_trait_scores(questions, answers)
     normalized_scores = normalize_scores(trait_scores)
 
-    # Step 3: Save daily progress
+    # 3. Save trait progress
     save_progress(student_id, normalized_scores)
 
-    # Step 4: Stream matching
-    streams_df = load_stream_master()
-    recommendations = match_streams(streams_df, normalized_scores)
+    # 4. Load stream data
+    numeric_df = load_stream_master_numeric()
+    details_df = load_stream_master_details()
 
-    # Step 5: Financial filtering (INFO based, not removal)
-    final_recommendations = filter_by_finance(recommendations, financial_level)
+    # 5. Match streams (NUMERIC scoring)
+    matched_streams = match_streams(numeric_df, normalized_scores)
+
+    # 6. Finance-aware adjustment (priority, not removal)
+    adjusted_streams = adjust_by_finance(matched_streams, financial_level)
+
+    # 7. Add finance notes
+    final_streams = filter_by_finance(adjusted_streams, financial_level)
+
+    # 8. Confidence score
+    confidence = calculate_confidence(normalized_scores, final_streams)
 
     return {
-        "raw_scores": trait_scores,
-        "normalized_scores": normalized_scores,
-        "stream_recommendations": final_recommendations
+        "raw_trait_scores": trait_scores,
+        "normalized_trait_scores": normalized_scores,
+        "stream_recommendations": final_streams,
+        "confidence_score": confidence
     }
 
+
+# ------------------ ACADEMIC PROGRESS ------------------
 @app.post("/progress/add")
 def add_progress(payload: dict):
     """
@@ -86,9 +120,10 @@ def add_progress(payload: dict):
     }
 
     save_marks(entry)
-
     return {"status": "Progress saved"}
 
+
+# ------------------ PERFORMANCE ANALYTICS ------------------
 @app.get("/progress/analyze/{student_id}")
 def analyze_progress(student_id: str):
     return analyze_student_performance(student_id)
