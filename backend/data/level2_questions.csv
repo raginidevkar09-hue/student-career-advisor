@@ -1,0 +1,19 @@
+question_id,question_text,trait,weight,level
+L2Q1,Have you participated in any competitions before?,communication,3,level2
+L2Q2,Did you win or become runner up in any competition?,confidence,3,level2
+L2Q3,Do you have any elder sibling or cousin?,social,2,level2
+L2Q4,If yes which field or stream are they studying or working in?,analytical,3,level2
+L2Q5,If no then which three streams would you like to choose?,analytical,4,level2
+L2Q6,Why do you want to choose those streams?,communication,4,level2
+L2Q7,Do you like Biology and want to become a doctor?,logical,4,level2
+L2Q8,Are you scared of injections blood or operations?,emotional,4,level2
+L2Q9,Do you have patience to explain things to others repeatedly?,communication,3,level2
+L2Q10,Would you like to become a teacher or mentor in future?,communication,3,level2
+L2Q11,Which subject do you understand better Maths or Science?,logical,4,level2
+L2Q12,Do you enjoy solving numerical problems?,analytical,4,level2
+L2Q13,Do you prefer understanding concepts or memorising answers?,analytical,4,level2
+L2Q14,Do you like reading history economics or social topics?,creative,3,level2
+L2Q15,Do you feel comfortable speaking in front of a class?,communication,3,level2
+L2Q16,How many hours can you study daily without getting tired?,discipline,4,level2
+L2Q17,Are you comfortable with competitive exams and pressure?,emotional,4,level2
+L2Q18,Do you prefer practical work or theory based study?,analytical,3,level2

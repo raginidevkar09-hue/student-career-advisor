@@ -1,0 +1,8 @@
+stream_id,stream_name,required_subjects,study_nature,memorization_level,logical_thinking_level,creativity_level,physical_requirement,stress_level,years_of_study,average_fee_range,career_examples,suitable_traits,common_challenges,financial_support_notes
+ENG,Engineering,Physics-Chemistry-Maths,Mixed,Low,High,Medium,Low,High,4,Medium to High,Software Engineer-Core Engineer-Researcher,logical-analytical-problem solving,Math difficulty-wrong college choice,Girls scholarships-category based fee waivers vary by state
+MED,Medical,Physics-Chemistry-Biology,Theory+Practical,Very High,Medium,Low,Medium,Very High,5+,Very High,Doctor-Surgeon-Researcher,memory-patience-emotional strength,Long duration-high stress,Govt colleges-schemes-loans-category benefits
+COM,Commerce,Accounts-Basic Maths,Theoretical,Medium,Medium,Medium,Low,Medium,3,Low to Medium,CA-CS-Accountant-Business,numerical-decision making,Competitive exams,Affordable colleges-scholarships
+ART,Arts & Humanities,None,Theoretical+Creative,Medium,Low,High,Low,Low,3,Low,Writer-Teacher-Civil Services,creativity-communication,Limited guidance,Low fees-government colleges
+SCI,Pure Science,PCM or PCB,Theory+Lab,High,High,Medium,Low,Medium,3-5,Low to Medium,Scientist-Professor-Researcher,analytical-curiosity,Limited jobs initially,Research scholarships
+VOC,Vocational,None,Practical,Low,Medium,High,Medium,Low,1-3,Low,Technician-Designer,hands-on-learning,Social acceptance,Govt skill schemes
+DEF,Defence/Govt Services,Varies,Mixed,Medium,Medium,Low,High,Very High,Varies,Low,Army Officer-Civil Services,discipline-leadership,High competition,Fully govt funded

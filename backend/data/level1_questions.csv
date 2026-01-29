@@ -1,0 +1,16 @@
+question_id,question_text,trait,weight,level
+Q1,Which subject do you like the most?,logical,2,level1
+Q2,In which subject do you score the highest marks?,logical,3,level1
+Q3,Which subject is hard for you to study?,memory,3,level1
+Q4,In which subject do you usually get low marks?,memory,2,level1
+Q5,Is there any subject you like but find difficult because of memorising?,memory,4,level1
+Q6,What do you like the most playing studying dancing sports etc?,physical,3,level1
+Q7,What activity do you choose first in your free time?,creative,2,level1
+Q8,Do you like reading books?,communication,2,level1
+Q9,Do you like creating poems or writing stories?,creative,4,level1
+Q10,Do you like participating in debates or speaking in front of others?,communication,4,level1
+Q11,From your textbook which character do you relate to the most?,creative,3,level1
+Q12,Why do you like that character?,communication,3,level1
+Q13,Do you enjoy solving puzzles or brain games?,logical,4,level1
+Q14,Do you like drawing painting or craft activities?,creative,3,level1
+Q15,Do you enjoy outdoor games more than indoor activities?,physical,3,level1

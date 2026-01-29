@@ -1,0 +1,6 @@
+scheme_id,scheme_name,eligible_streams,gender,income_limit,benefits,notes
+SCH001,Post Matric Scholarship SC/ST,Engineering-Medical-Commerce-Arts,Any,250000,Tuition fee waiver + stipend,Central government scheme
+SCH002,Pragati Scholarship,Engineering,Female,800000,50000 per year,AICTE scholarship for girls
+SCH003,Saksham Scholarship,Engineering,Any,800000,50000 per year,For specially-abled students (AICTE)
+SCH004,Minority Scholarship,All,Any,250000,Fee reimbursement,Apply through NSP portal
+SCH005,State Merit Scholarship,All,Any,No limit,Partial fee support,Varies by state government
