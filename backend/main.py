@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from datetime import date
+from pydantic import BaseModel
 
 # Question & scoring
 from backend.services.csv_loader import load_level1_questions
@@ -22,6 +23,10 @@ from backend.services.finance_adjuster import adjust_by_finance
 
 # Confidence
 from backend.services.confidence_calculator import calculate_confidence
+
+from backend.services.level2_evaluator import evaluate_level2
+from backend.services.final_recommender import generate_final_recommendation
+from backend.services.progress_store import save_progress
 
 app = FastAPI()
 
@@ -127,3 +132,42 @@ def add_progress(payload: dict):
 @app.get("/progress/analyze/{student_id}")
 def analyze_progress(student_id: str):
     return analyze_student_performance(student_id)
+
+class Level2Submission(BaseModel):
+    student_id: str
+    answers: dict
+
+@app.post("/level2/submit")
+def submit_level2(payload: Level2Submission):
+    traits = evaluate_level2(payload.answers)
+
+    # 🔑 THIS is the important line
+    save_progress(payload.student_id, traits)
+
+    return {
+        "student_id": payload.student_id,
+        "level": 2,
+        "traits": traits,
+        "status": "saved"
+    }
+
+@app.post("/final/recommendation")
+def final_recommendation(payload: dict):
+    """
+    payload:
+    {
+        "student_id": "S101",
+        "level1_traits": {...},
+        "level2_traits": {...},
+        "level3_traits": {...}
+    }
+    """
+
+    return generate_final_recommendation(
+    payload["student_id"],
+    payload["level1_traits"],
+    payload["level2_traits"],
+    payload["level3_summary"],
+    payload["financial_level"]
+)
+
